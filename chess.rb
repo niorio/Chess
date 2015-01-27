@@ -53,18 +53,36 @@ class Board
     @grid[x][y] = piece
   end
 
+  def pieces
+    @grid.flatten.select{|item| !item.nil?}
+  end
+
   def collect_pieces(color)
     collection = []
-    @grid.flatten.each do |space|
-      unless space.nil?
-        collection << space if space.color == color
-      end
+
+    pieces.each do |space|
+      collection << space if space.color == color
     end
+
     collection
   end
 
-  
+  def find_king(color)
+    pieces.each do |piece|
+      return piece if piece.color == color && piece.class == King
+    end
+  end
 
+  def in_check?(color)
+    opponent_color = color == :w ? :b : :w
+    all_possible_moves = []
+
+    collect_pieces(opponent_color).each do |piece|
+      all_possible_moves += piece.possible_moves
+    end
+
+    all_possible_moves.include?(find_king(color).position)
+  end
 
 end
 
