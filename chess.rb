@@ -101,6 +101,14 @@ class Board
     duped_board
   end
 
+  def checkmate?(color)
+    if in_check?(color)
+      collect_pieces(color).all?{ |piece| piece.valid_moves.empty?}
+    else
+      false
+    end
+  end
+
 end
 
 class Piece
