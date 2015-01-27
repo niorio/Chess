@@ -46,7 +46,7 @@ class Pieces
   end
 
   def move(target)
-    if @board[target].nil? || @board[target].color == opposite
+    if possible?(target)
       @board[@position] = nil
       @position = target
       @board[@position] = self
@@ -54,6 +54,10 @@ class Pieces
     else
       raise
     end
+  end
+
+  def possible?(pos)
+    pos.on_board? && (@board[pos].nil? || @board[pos].color == opposite)
   end
 
 end
@@ -68,24 +72,30 @@ class SlidingPieces < Pieces
       available? = true
 
       while available?
-      new_pos = delta.zip(new_pos).reduce(:+)
-      if new_pos.on_board? && (@board[new_pos].nil? || @board[new_pos].color == opposite)
-        possible_moves << new_pos
-        if @board[new_pos].color == opposite
+        new_pos = delta.zip(new_pos).map{ |arr| arr.reduce(:+)}
+        if possible?(new_pos)
+          possible_moves << new_pos
+          if @board[new_pos].color == opposite
+            available? = false
+          end
+        else
           available? = false
         end
-      else
-        available? = false
       end
-
+    end
 
 
 end
 
 class SteppingPieces < Pieces
 
-  def move(target)
-    super
+  def possible_moves(deltas)
+    possible_moves =[]
+
+    deltas.each do |delta|
+      new_pos = delta.zip(@position).map{ |arr| arr.reduce(:+)}
+      possible_moves << new_pos if possible?(new_pos)
+    end
   end
 
 end
