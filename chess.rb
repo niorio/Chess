@@ -85,7 +85,9 @@ class Piece
   def possible?(pos)
     pos.on_board? && (@board[pos].nil? || @board[pos].color == opposite)
   end
-
+  def possible_moves
+    raise "Not yet implemented"
+  end
 end
 
 class SlidingPiece < Piece
@@ -132,14 +134,48 @@ class SteppingPiece < Piece
 end
 
 class Pawn < Piece
+  MOVING_W = [[1,0], [2,0]]
+  MOVING_B = [[-1,0],[-2,0]]
+  ATTACKING_W = [[1,1],[1,-1]]
+  ATTACKING_B = [[-1,1],[-1,-1]]
 
-  def move(target)
-    @board[@position] = nil
-    @position = target
-    @board[@position] = self
-  end
+  def possible_moves
+    possible_moves = []
 
-  def crazy
+    if self.color == :w
+      if @position[0] == 1
+        new_pos = MOVING_W[1].zip(@position).map{ |arr| arr.reduce(:+)}
+        possible_moves << new_pos if @board[new_pos].nil?
+      end
+
+      new_pos = MOVING_W[0].zip(@position).map{ |arr| arr.reduce(:+)}
+      possible_moves << new_pos if @board[new_pos].nil?
+
+      ATTACKING_W.each do |move|
+        new_pos = move.zip(@position).map{ |arr| arr.reduce(:+)}
+        unless @board[new_pos].nil?
+          possible_moves << new_pos if @board[new_pos].color == opposite
+        end
+      end
+
+    else
+      if @position[0] == 6
+        new_pos = MOVING_B[1].zip(@position).map{ |arr| arr.reduce(:+)}
+        possible_moves << new_pos if @board[new_pos].nil?
+      end
+
+      new_pos = MOVING_B[0].zip(@position).map{ |arr| arr.reduce(:+)}
+      possible_moves << new_pos if @board[new_pos].nil?
+
+      ATTACKING_B.each do |move|
+        new_pos = move.zip(@position).map{ |arr| arr.reduce(:+)}
+        unless @board[new_pos].nil?
+          possible_moves << new_pos if @board[new_pos].color == opposite
+        end
+      end
+
+    end
+    possible_moves
   end
 
 end
