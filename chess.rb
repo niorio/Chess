@@ -131,8 +131,20 @@ class Piece
   def possible?(pos)
     pos.on_board? && (@board[pos].nil? || @board[pos].color == opposite)
   end
+
   def possible_moves
     raise "Not yet implemented"
+  end
+
+  def valid_moves
+    possible_moves.select{|move| !move_into_check?(move)}
+  end
+
+  def move_into_check?(pos)
+    duped_board = @board.dup
+    duped_board.move(@position,pos)
+    duped_board.in_check?(@color)
+
   end
 end
 
