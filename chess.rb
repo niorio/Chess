@@ -39,8 +39,8 @@ class Board
     Array.new(8) { Array.new(8) }
   end
 
-  def initialize
-    @grid = self.class.starting_board
+  def initialize(grid = self.class.starting_board)
+    @grid = grid
   end
 
   def [](pos)
@@ -82,6 +82,23 @@ class Board
     end
 
     all_possible_moves.include?(find_king(color).position)
+  end
+
+  def move(start, finish)
+    if self[start].nil?
+      raise
+    else
+      self[start].move(finish)
+    end
+  end
+
+
+  def dup
+    duped_board = Board.new
+    pieces.each do |piece|
+      piece.class.new(duped_board, piece.color, piece.position)
+    end
+    duped_board
   end
 
 end
