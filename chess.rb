@@ -109,6 +109,26 @@ class Board
     end
   end
 
+  def display
+    col = {:w => "w", :b =>"b"}
+    type = { King => "K", Pawn =>"P", Rook =>"R", Knight =>"H", Bishop =>"B", Queen => "Q"}
+
+
+    print "  0  1  2  3  4  5  6  7\n"
+    @grid.each_with_index do |r, i|
+      print"#{i} "
+      r.each do |el|
+        if el.nil?
+          print "__ "
+        else
+          print"#{col[el.color]}#{type[el.class]} "
+        end
+      end
+      puts
+    end
+    nil
+  end
+
 end
 
 class Piece
@@ -143,6 +163,8 @@ class Piece
   def possible_moves
     raise "Not yet implemented"
   end
+
+
 
   def valid_moves
     possible_moves.select{|move| !move_into_check?(move)}
@@ -243,6 +265,7 @@ class Pawn < Piece
     end
     possible_moves.select{|move| move.on_board?}
   end
+
   def move(target)
     if possible_moves.include?(target)
       @board[@position] = nil
@@ -254,6 +277,8 @@ class Pawn < Piece
     end
   end
 
+
+
 end
 
 class Rook < SlidingPiece
@@ -264,6 +289,8 @@ class Rook < SlidingPiece
   def possible_moves
     super(DELTAS_ALL[:row_col])
   end
+
+
 
 
 end
@@ -302,6 +329,57 @@ class Knight < SteppingPiece
 
   def possible_moves
     super(DELTAS_ALL[:knights])
+  end
+
+
+end
+
+
+class Game
+
+  def initialize
+    @board = Board.new
+    8.times do |i|
+      Pawn.new(@board, :w, [1,i])
+    end
+
+    Rook.new(@board, :w, [0,7])
+    Rook.new(@board, :w, [0,0])
+    Knight.new(@board, :w, [0,6])
+    Knight.new(@board, :w, [0,1])
+    Bishop.new(@board, :w, [0,2])
+    Bishop.new(@board, :w, [0,5])
+    King.new(@board, :w, [0,3])
+    Queen.new(@board, :w, [0,4])
+
+    8.times do |i|
+      Pawn.new(@board, :b, [6,i])
+    end
+
+    Rook.new(@board, :b, [7,7])
+    Rook.new(@board, :b, [7,0])
+    Knight.new(@board, :b, [7,6])
+    Knight.new(@board, :b, [7,1])
+    Bishop.new(@board, :b, [7,2])
+    Bishop.new(@board, :b, [7,5])
+    King.new(@board, :b, [7,3])
+    Queen.new(@board, :b, [7,4])
+
+
+    @player1 = HumanPlayer.new(:w)
+    @player2 = HumanPlayer.new(:b)
+
+  end
+
+
+
+
+end
+
+class HumanPlayer
+
+  def initialize(color)
+    @color = color
   end
 
 
