@@ -32,7 +32,7 @@ class Board
 
 end
 
-class Pieces
+class Piece
 
   def opposite
     @color == :w ? :b : :w
@@ -62,7 +62,7 @@ class Pieces
 
 end
 
-class SlidingPieces < Pieces
+class SlidingPiece < Piece
 
   def possible_moves(deltas)
     possible_moves = []
@@ -87,7 +87,7 @@ class SlidingPieces < Pieces
 
 end
 
-class SteppingPieces < Pieces
+class SteppingPiece < Piece
 
   def possible_moves(deltas)
     possible_moves =[]
@@ -100,7 +100,7 @@ class SteppingPieces < Pieces
 
 end
 
-class Pawn < Pieces
+class Pawn < Piece
 
   def move(target)
     @board[@position] = nil
@@ -113,10 +113,72 @@ class Pawn < Pieces
 
 end
 
-class Rook < SlidingPieces
+class Rook < SlidingPiece
+
+  DELTAS = [
+    [1,0],
+    [-1,0],
+    [0,1],
+    [0,-1]
+  ]
 
   def move(target)
 
   end
 
 end
+
+class Bishop < SlidingPiece
+
+  DELTAS = [
+    [1,1],
+    [-1,1],
+    [1,-1],
+    [-1,-1]
+  ]
+end
+
+class Queen < SlidingPiece
+
+
+  DELTAS = [
+    [1,1],
+    [-1,1],
+    [1,-1],
+    [-1,-1],
+    [1,0],
+    [-1,0],
+    [0,1],
+    [0,-1]
+  ]
+
+end
+
+class King < SteppingPiece
+
+
+  DELTAS = [
+    [1,1],
+    [-1,1],
+    [1,-1],
+    [-1,-1],
+    [1,0],
+    [-1,0],
+    [0,1],
+    [0,-1]
+  ]
+
+end
+
+class Knight < SteppingPiece
+
+  DELTAS = [
+    [1,2],
+    [1,-2],
+    [2,1],
+    [2,-1]
+    [-1,2],
+    [-1,-2],
+    [-2,1],
+    [-2,-1]
+  ]
