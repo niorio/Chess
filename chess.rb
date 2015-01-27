@@ -58,6 +58,7 @@ class Board
 end
 
 class Piece
+  attr_reader :color, :position
 
   def opposite
     @color == :w ? :b : :w
@@ -71,7 +72,7 @@ class Piece
   end
 
   def move(target)
-    if possible?(target)
+    if possible?(target) && possible_moves.include?(target)
       @board[@position] = nil
       @position = target
       @board[@position] = self
@@ -147,9 +148,6 @@ class Rook < SlidingPiece
 
   #@delta = DELTAS_ALL[:row_col]
 
-  def move(target)
-
-  end
 
   def possible_moves
     super(DELTAS_ALL[:row_col])
@@ -160,10 +158,18 @@ end
 
 class Bishop < SlidingPiece
 
+  def possible_moves
+    super(DELTAS_ALL[:diag])
+  end
+
 
 end
 
 class Queen < SlidingPiece
+
+  def possible_moves
+    super(DELTAS_ALL[:diag] + DELTAS_ALL[:row_col])
+  end
 
 
 
@@ -171,12 +177,20 @@ end
 
 class King < SteppingPiece
 
+  def possible_moves
+    super(DELTAS_ALL[:diag] + DELTAS_ALL[:row_col])
+  end
+
 
 
 
 end
 
 class Knight < SteppingPiece
+
+  def possible_moves
+    super(DELTAS_ALL[:knights])
+  end
 
 
 end
