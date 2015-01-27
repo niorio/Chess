@@ -53,6 +53,17 @@ class Board
     @grid[x][y] = piece
   end
 
+  def collect_pieces(color)
+    collection = []
+    @grid.flatten.each do |space|
+      unless space.nil?
+        collection << space if space.color == color
+      end
+    end
+    collection
+  end
+
+  
 
 
 end
@@ -175,7 +186,17 @@ class Pawn < Piece
       end
 
     end
-    possible_moves
+    possible_moves.select{|move| move.on_board?}
+  end
+  def move(target)
+    if possible_moves.include?(target)
+      @board[@position] = nil
+      @position = target
+      @board[@position] = self
+
+    else
+      raise
+    end
   end
 
 end
