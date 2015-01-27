@@ -371,15 +371,42 @@ class Game
 
   end
 
+  def play
+    player = @player1
+    until @board.checkmate?(:w) || @board.checkmate?(:b)
+    begin
+      @board.display
+      positions = player.play_turn
+      raise "Not correct starting piece" if @board[positions.first].color != player.color
+
+      @board.move(positions.first, positions.last)
+      player = player == @player1 ? @player2 : @player1
+    rescue
+      retry
+    end
+    end
+    @board.display
+
+  end
 
 
 
 end
 
 class HumanPlayer
-
+  attr_reader :color
   def initialize(color)
     @color = color
+  end
+
+  def play_turn
+
+    print "Please choose a piece by its location: "
+    start = gets.chomp.split("").map(&:to_i)
+    print "Please choose an end point by its location: "
+    final = gets.chomp.split("").map(&:to_i)
+    [start,final]
+
   end
 
 
