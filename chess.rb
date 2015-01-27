@@ -13,30 +13,47 @@ class Board
     @grid[x][y]
   end
 
+  def []=(pos, piece)
+    x, y = pos[0], pos[1]
+    @grid[x][y] = piece
+  end
+
 
 
 end
 
 class Pieces
 
+  def opposite
+    @color == :w ? :b : :w
+  end
+
   def initialize(board, color, position)
     @board = board
     @color = color
     @position = position
+    @board[position] = self
   end
 
-  def move
-    raise NotImplementedError
+  def move(target)
+    if @board[target].nil? || @board[target].color == opposite
+      @board[@position] = nil
+      @position = target
+      @board[@position] = self
+    else
+      raise
+    end
   end
 
 end
 
 class SlidingPieces < Pieces
 
-  def move(target)
-    @board[@position] = nil
-    @position = target
-    @board[@position] = self
+  def move(target, path)
+
+    #path.all? {|pos| pos.nil?}
+    super
+
   end
 
 
@@ -45,9 +62,7 @@ end
 class SteppingPieces < Pieces
 
   def move(target)
-    @board[@position] = nil
-    @position = target
-    @board[@position] = self
+    super
   end
 
 end
