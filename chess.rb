@@ -1,3 +1,13 @@
+class Array
+
+  def on_board?
+
+    self.all? {|el| el.between?(0,7)}
+
+  end
+
+end
+
 class Board
 
   def self.starting_board
@@ -40,6 +50,7 @@ class Pieces
       @board[@position] = nil
       @position = target
       @board[@position] = self
+
     else
       raise
     end
@@ -49,12 +60,24 @@ end
 
 class SlidingPieces < Pieces
 
-  def move(target, path)
+  def possible_moves(deltas)
+    possible_moves = []
 
-    #path.all? {|pos| pos.nil?}
-    super
+    deltas.each do |delta|
+      new_pos = @position
+      available? = true
 
-  end
+      while available?
+      new_pos = delta.zip(new_pos).reduce(:+)
+      if new_pos.on_board? && (@board[new_pos].nil? || @board[new_pos].color == opposite)
+        possible_moves << new_pos
+        if @board[new_pos].color == opposite
+          available? = false
+        end
+      else
+        available? = false
+      end
+
 
 
 end
@@ -73,6 +96,17 @@ class Pawn < Pieces
     @board[@position] = nil
     @position = target
     @board[@position] = self
+  end
+
+  def crazy
+  end
+
+end
+
+class Rook < SlidingPieces
+
+  def move(target)
+
   end
 
 end
