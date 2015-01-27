@@ -19,11 +19,45 @@ end
 
 class Pieces
 
-  def initialize
+  def initialize(board, color, position)
+    @board = board
+    @color = color
+    @position = position
   end
 
   def move
     raise NotImplementedError
+  end
+
+end
+
+class SlidingPieces < Pieces
+
+  def move(target)
+    @board[@position] = nil
+    @position = target
+    @board[@position] = self
+  end
+
+
+end
+
+class SteppingPieces < Pieces
+
+  def move(target)
+    @board[@position] = nil
+    @position = target
+    @board[@position] = self
+  end
+
+end
+
+class Pawn < Pieces
+
+  def move(target)
+    @board[@position] = nil
+    @position = target
+    @board[@position] = self
   end
 
 end
