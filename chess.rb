@@ -1,3 +1,28 @@
+DELTAS_ALL = {
+  :row_col => [
+            [1,0],
+            [-1,0],
+            [0,1],
+            [0,-1]
+          ],
+  :diag    => [
+            [1,1],
+            [-1,1],
+            [1,-1],
+            [-1,-1]
+          ],
+  :knights => [
+            [1,2],
+            [1,-2],
+            [2,1],
+            [2,-1],
+            [-1,2],
+            [-1,-2],
+            [-2,1],
+            [-2,-1]
+            ]
+}
+
 class Array
 
   def on_board?
@@ -69,20 +94,24 @@ class SlidingPiece < Piece
 
     deltas.each do |delta|
       new_pos = @position
-      available? = true
+      available = true
 
-      while available?
+      while available
         new_pos = delta.zip(new_pos).map{ |arr| arr.reduce(:+)}
         if possible?(new_pos)
           possible_moves << new_pos
-          if @board[new_pos].color == opposite
-            available? = false
+          if @board[new_pos].nil?
+          elsif @board[new_pos].color == opposite
+            available = false
           end
         else
-          available? = false
+          available = false
         end
       end
     end
+    possible_moves
+
+  end
 
 
 end
@@ -96,6 +125,7 @@ class SteppingPiece < Piece
       new_pos = delta.zip(@position).map{ |arr| arr.reduce(:+)}
       possible_moves << new_pos if possible?(new_pos)
     end
+    possible_moves
   end
 
 end
@@ -115,70 +145,38 @@ end
 
 class Rook < SlidingPiece
 
-  DELTAS = [
-    [1,0],
-    [-1,0],
-    [0,1],
-    [0,-1]
-  ]
+  #@delta = DELTAS_ALL[:row_col]
 
   def move(target)
 
   end
 
+  def possible_moves
+    super(DELTAS_ALL[:row_col])
+  end
+
+
 end
 
 class Bishop < SlidingPiece
 
-  DELTAS = [
-    [1,1],
-    [-1,1],
-    [1,-1],
-    [-1,-1]
-  ]
+
 end
 
 class Queen < SlidingPiece
 
 
-  DELTAS = [
-    [1,1],
-    [-1,1],
-    [1,-1],
-    [-1,-1],
-    [1,0],
-    [-1,0],
-    [0,1],
-    [0,-1]
-  ]
 
 end
 
 class King < SteppingPiece
 
 
-  DELTAS = [
-    [1,1],
-    [-1,1],
-    [1,-1],
-    [-1,-1],
-    [1,0],
-    [-1,0],
-    [0,1],
-    [0,-1]
-  ]
+
 
 end
 
 class Knight < SteppingPiece
 
-  DELTAS = [
-    [1,2],
-    [1,-2],
-    [2,1],
-    [2,-1]
-    [-1,2],
-    [-1,-2],
-    [-2,1],
-    [-2,-1]
-  ]
+
+end
