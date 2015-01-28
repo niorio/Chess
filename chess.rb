@@ -114,9 +114,9 @@ class Board
     type = { King => "K", Pawn =>"P", Rook =>"R", Knight =>"H", Bishop =>"B", Queen => "Q"}
 
 
-    print "  0  1  2  3  4  5  6  7\n"
+    print "  a  b  c  d  e  f  g  h\n"
     @grid.each_with_index do |r, i|
-      print"#{i} "
+      print"#{i+1} "
       r.each do |el|
         if el.nil?
           print "__ "
@@ -349,8 +349,8 @@ class Game
     Knight.new(@board, :w, [0,1])
     Bishop.new(@board, :w, [0,2])
     Bishop.new(@board, :w, [0,5])
-    King.new(@board, :w, [0,3])
-    Queen.new(@board, :w, [0,4])
+    King.new(@board, :w, [0,4])
+    Queen.new(@board, :w, [0,3])
 
     8.times do |i|
       Pawn.new(@board, :b, [6,i])
@@ -362,8 +362,8 @@ class Game
     Knight.new(@board, :b, [7,1])
     Bishop.new(@board, :b, [7,2])
     Bishop.new(@board, :b, [7,5])
-    King.new(@board, :b, [7,3])
-    Queen.new(@board, :b, [7,4])
+    King.new(@board, :b, [7,4])
+    Queen.new(@board, :b, [7,3])
 
 
     @player1 = HumanPlayer.new(:w)
@@ -399,14 +399,27 @@ class HumanPlayer
     @color = color
   end
 
+  def parse_input(input)
+    input = input.gsub(/\s+/, "").split(",").map{|el| el.split("")}
+    raise ArgumentError if input.flatten.count != 4
+    input.map do |el|
+      el[0] = el[0].downcase.ord - 97
+      el[1] = el[1].to_i
+      el[1] -= 1
+      el.reverse
+    end
+
+
+
+  end
+
   def play_turn
 
-    print "Please choose a piece by its location: "
-    start = gets.chomp.split("").map(&:to_i)
-    print "Please choose an end point by its location: "
-    final = gets.chomp.split("").map(&:to_i)
-    [start,final]
-
+    print "Please choose a piece by its location and where you would like to move it to,"
+    move = gets.chomp
+    parse_input(move)
+  rescue
+    retry
   end
 
 
