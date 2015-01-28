@@ -111,6 +111,7 @@ class Board
   end
 
   def display
+    system("clear")
     background = :light_green
     print "   a  b  c  d  e  f  g  h\n"
 
