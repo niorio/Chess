@@ -13,13 +13,22 @@ class Piece
   end
 
   def move(target)
-    if possible?(target) && possible_moves.include?(target)
+
+    if possible?(target) && valid_moves.include?(target)
       @board[@position] = nil
       @position = target
       @board[@position] = self
 
     else
       raise
+    end
+  end
+
+  def move!(target)
+    if possible?(target)
+      @board[@position] = nil
+      @position = target
+      @board[@position] = self
     end
   end
 
@@ -38,12 +47,14 @@ class Piece
 
 
   def valid_moves
+
     possible_moves.select{|move| !move_into_check?(move)}
   end
 
   def move_into_check?(pos)
+
     duped_board = @board.dup
-    duped_board.move(@position,pos)
+    duped_board[@position].move!(pos)
     duped_board.in_check?(@color)
 
   end

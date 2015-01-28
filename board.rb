@@ -33,12 +33,14 @@ class Board
   end
 
   def find_king(color)
+
     pieces.each do |piece|
       return piece if piece.color == color && piece.class == King
     end
   end
 
   def in_check?(color)
+    
     opponent_color = color == :w ? :b : :w
     all_possible_moves = []
 
@@ -50,6 +52,7 @@ class Board
   end
 
   def move(start, finish)
+
     if castling?(start, finish)
       castle(start, finish)
       return
@@ -80,7 +83,7 @@ class Board
   end
 
   def castling?(start,finish)
-    
+
     possible_opponent_moves = []
     self.collect_pieces(self[start].opposite).each do |piece|
       piece.possible_moves.each {|move| possible_opponent_moves << move }

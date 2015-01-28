@@ -5,13 +5,13 @@ class Pawn < Piece
   ATTACKING_B = [[-1,1],[-1,-1]]
 
   def possible_moves
-    
+
     possible_moves = []
 
     if self.color == :w
       if @position[0] == 1
         new_pos = MOVING_W[1].zip(@position).map{ |arr| arr.reduce(:+)}
-        possible_moves << new_pos if @board[new_pos].nil?
+        possible_moves << new_pos if @board[new_pos].nil? && @board[[new_pos[0]-1,new_pos[1]]].nil?
       end
 
       new_pos = MOVING_W[0].zip(@position).map{ |arr| arr.reduce(:+)}
@@ -31,7 +31,7 @@ class Pawn < Piece
     else
       if @position[0] == 6
         new_pos = MOVING_B[1].zip(@position).map{ |arr| arr.reduce(:+)}
-        possible_moves << new_pos if @board[new_pos].nil?
+        possible_moves << new_pos if @board[new_pos].nil? && @board[[new_pos[0]+1,new_pos[1]]].nil?
       end
 
       new_pos = MOVING_B[0].zip(@position).map{ |arr| arr.reduce(:+)}
