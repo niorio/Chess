@@ -1,3 +1,4 @@
+require 'colorize'
 DELTAS_ALL = {
   :row_col => [
             [1,0],
@@ -110,18 +111,18 @@ class Board
   end
 
   def display
-    col = {:w => "w", :b =>"b"}
-    type = { King => "K", Pawn =>"P", Rook =>"R", Knight =>"H", Bishop =>"B", Queen => "Q"}
+    background = :light_green
+    print "   a  b  c  d  e  f  g  h\n"
 
-
-    print "  a  b  c  d  e  f  g  h\n"
     @grid.each_with_index do |r, i|
+      background = background == :light_green ? :light_red : :light_green
       print"#{i+1} "
       r.each do |el|
+        background = background == :light_green ? :light_red : :light_green
         if el.nil?
-          print "__ "
+          print "   ".colorize(:background => background)
         else
-          print"#{col[el.color]}#{type[el.class]} "
+          print" #{el.render} ".colorize(:background => background)
         end
       end
       puts
@@ -161,7 +162,11 @@ class Piece
   end
 
   def possible_moves
-    raise "Not yet implemented"
+    raise NotImplementedError
+  end
+
+  def render
+    raise NotImplementedError
   end
 
 
@@ -277,7 +282,9 @@ class Pawn < Piece
     end
   end
 
-
+  def render
+    self.color == :w ? "\u2659" : "\u265F"
+  end
 
 end
 
@@ -289,7 +296,9 @@ class Rook < SlidingPiece
   def possible_moves
     super(DELTAS_ALL[:row_col])
   end
-
+  def render
+    self.color == :w ? "\u2656" : "\u265C"
+  end
 
 
 
@@ -300,7 +309,9 @@ class Bishop < SlidingPiece
   def possible_moves
     super(DELTAS_ALL[:diag])
   end
-
+  def render
+    self.color == :w ? "\u2657" : "\u265D"
+  end
 
 end
 
@@ -309,7 +320,9 @@ class Queen < SlidingPiece
   def possible_moves
     super(DELTAS_ALL[:diag] + DELTAS_ALL[:row_col])
   end
-
+  def render
+    self.color == :w ? "\u2655" : "\u265B"
+  end
 
 
 end
@@ -320,7 +333,9 @@ class King < SteppingPiece
     super(DELTAS_ALL[:diag] + DELTAS_ALL[:row_col])
   end
 
-
+  def render
+    self.color == :w ? "\u2654" : "\u265A"
+  end
 
 
 end
@@ -330,7 +345,9 @@ class Knight < SteppingPiece
   def possible_moves
     super(DELTAS_ALL[:knights])
   end
-
+  def render
+    self.color == :w ? "\u2658" : "\u265E"
+  end
 
 end
 
@@ -415,7 +432,7 @@ class HumanPlayer
 
   def play_turn
 
-    print "Please choose a piece by its location and where you would like to move it to,"
+    print "Please choose a piece by its location and where you would like to move it to: "
     move = gets.chomp
     parse_input(move)
   rescue
