@@ -27,7 +27,7 @@ class ComputerPlayer
     # return (check_moves & attack_moves & safe_moves).sample unless (check_moves & attack_moves & safe_moves).empty?
     # return (attack_moves & safe_moves).sample unless (attack_moves & safe_moves).empty?
     # return (check_moves & good_trade).sample unless (check_moves & good_trade).empty?
-    return good_trade.sample unless good_trade.empty?
+    #return good_trade.sample unless good_trade.empty?
 
 
     return check_moves.sample unless check_moves.empty?
