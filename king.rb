@@ -1,5 +1,7 @@
 class King < SteppingPiece
 
+  VALUE = 100
+
   attr_reader :moved
 
   def initialize(board, color, position)

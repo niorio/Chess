@@ -1,4 +1,6 @@
 class Pawn < Piece
+  VALUE = 1
+
   MOVING_W = [[1,0], [2,0]]
   MOVING_B = [[-1,0],[-2,0]]
   ATTACKING_W = [[1,1],[1,-1]]

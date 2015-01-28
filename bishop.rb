@@ -1,5 +1,7 @@
 class Bishop < SlidingPiece
 
+  VALUE = 3
+
   def possible_moves
     super(DELTAS_ALL[:diag])
   end

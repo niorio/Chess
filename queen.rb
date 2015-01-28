@@ -1,5 +1,7 @@
 class Queen < SlidingPiece
 
+  VALUE = 9
+
   def possible_moves
     super(DELTAS_ALL[:diag] + DELTAS_ALL[:row_col])
   end

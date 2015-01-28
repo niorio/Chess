@@ -1,5 +1,7 @@
 class Knight < SteppingPiece
 
+  VALUE = 3
+
   def possible_moves
     super(DELTAS_ALL[:knights])
   end

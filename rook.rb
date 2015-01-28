@@ -1,5 +1,7 @@
 class Rook < SlidingPiece
 
+  VALUE = 5
+
   attr_reader :moved
 
   def initialize(board, color, position)
