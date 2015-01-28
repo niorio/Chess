@@ -55,6 +55,23 @@ class Board
     else
       self[start].move(finish)
     end
+    pawn_promotion
+  end
+
+  def pawn_promotion
+    pawn_promoted = false
+    2.times do |i|
+      8.times do |j|
+        potential_pawn = self[[i*7,j]]
+        if potential_pawn.class == Pawn
+          self[[i*7,j]] = Queen.new(self, potential_pawn.color, [i*7,j])
+          pawn_promoted = true
+        end
+      end
+    end
+    if pawn_promoted
+      puts "A pawn is now a Queen!"
+    end
   end
 
 

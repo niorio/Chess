@@ -11,7 +11,7 @@ require_relative 'queen'
 require_relative 'computer_player'
 require_relative 'human_player'
 require_relative 'game'
-
+require 'byebug'
 require 'colorize'
 DELTAS_ALL = {
   :row_col => [
@@ -45,5 +45,21 @@ class Array
     self.all? {|el| el.between?(0,7)}
 
   end
+
+end
+
+if __FILE__ == $PROGRAM_NAME
+
+  puts "Would you like to play against a computer? Y or N?"
+  response = gets.chomp.upcase
+  if response == "Y"
+    player2 = :computer
+  else
+    player2 = :human
+  end
+
+  game = Game.new(player2)
+  game.play
+
 
 end

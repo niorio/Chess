@@ -5,6 +5,7 @@ class Pawn < Piece
   ATTACKING_B = [[-1,1],[-1,-1]]
 
   def possible_moves
+    
     possible_moves = []
 
     if self.color == :w
@@ -14,12 +15,16 @@ class Pawn < Piece
       end
 
       new_pos = MOVING_W[0].zip(@position).map{ |arr| arr.reduce(:+)}
-      possible_moves << new_pos if @board[new_pos].nil?
+      if new_pos.on_board?
+        possible_moves << new_pos if @board[new_pos].nil?
+      end
 
       ATTACKING_W.each do |move|
         new_pos = move.zip(@position).map{ |arr| arr.reduce(:+)}
-        unless @board[new_pos].nil?
-          possible_moves << new_pos if @board[new_pos].color == opposite
+        if new_pos.on_board?
+          unless @board[new_pos].nil?
+            possible_moves << new_pos if @board[new_pos].color == opposite
+          end
         end
       end
 

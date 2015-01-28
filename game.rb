@@ -1,6 +1,6 @@
 class Game
 
-  def initialize
+  def initialize(player2)
     @board = Board.new
     8.times do |i|
       Pawn.new(@board, :w, [1,i])
@@ -28,9 +28,13 @@ class Game
     King.new(@board, :b, [7,4])
     Queen.new(@board, :b, [7,3])
 
-
     @player1 = HumanPlayer.new(:w)
-    @player2 = HumanPlayer.new(:b)
+
+    if player2 == :computer
+      @player2 = ComputerPlayer.new(@board)
+    else
+      @player2 = HumanPlayer.new(:b)
+    end
 
   end
 
