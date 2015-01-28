@@ -50,6 +50,11 @@ class Board
   end
 
   def move(start, finish)
+    if castling?(start, finish)
+      castle(start, finish)
+      return
+    end
+
     if self[start].nil?
       raise
     else
@@ -72,6 +77,47 @@ class Board
     if pawn_promoted
       puts "A pawn is now a Queen!"
     end
+  end
+
+  def castling?(start,finish)
+    
+    possible_opponent_moves = []
+    self.collect_pieces(self[start].opposite).each do |piece|
+      piece.possible_moves.each {|move| possible_opponent_moves << move }
+    end
+
+    if self[start].class == King && self[start].moved == false && start[0] == finish[0] &&
+    (start[1] == (finish[1] + 2) || start[1] == (finish[1] - 2))
+
+      if finish[1] > start[1] && self[[start[0],7]].moved == false &&
+      self[[start[0],7]].valid_moves.include?([start[0],5]) && !possible_opponent_moves.include?(finish)
+        return true
+      end
+
+      if finish[1] < start[1] && self[[start[0],0]].moved == false &&
+      self[[start[0],0]].valid_moves.include?([start[0],3]) && !possible_opponent_moves.include?(finish)
+        return true
+      end
+    end
+    false
+  end
+
+  def castle(start, finish)
+    color = self[start].color
+
+    if finish[1] > start[1] ##castle to the right
+      self[start] = nil
+      self[[start[0],7]] = nil
+      self[[start[0],6]] = King.new(self, color, [start[0],6])
+      self[[start[0],5]] = Rook.new(self, color, [start[0],5])
+
+    else ##castle to the left
+      self[start] = nil
+      self[[start[0],0]] = nil
+      self[[start[0],2]] = King.new(self, color, [start[0],2])
+      self[[start[0],3]] = Rook.new(self, color, [start[0],3])
+    end
+
   end
 
 

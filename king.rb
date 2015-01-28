@@ -1,5 +1,18 @@
 class King < SteppingPiece
 
+  attr_reader :moved
+
+  def initialize(board, color, position)
+    @moved = false
+    super
+  end
+
+  def move(target)
+    @moved = true
+    super
+  end
+
+
   def possible_moves
     super(DELTAS_ALL[:diag] + DELTAS_ALL[:row_col])
   end

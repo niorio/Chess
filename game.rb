@@ -28,6 +28,7 @@ class Game
     King.new(@board, :b, [7,4])
     Queen.new(@board, :b, [7,3])
 
+
     @player1 = HumanPlayer.new(:w)
 
     if player2 == :computer
