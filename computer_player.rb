@@ -10,17 +10,8 @@ class ComputerPlayer
   def play_turn
 
     @possible = possible_moves
-    @safe_moves = safe_moves
-    return checkmate_moves.first unless checkmate_moves.empty?
-
-
-
-
-    # if duped_board.in_check?(:w) && possible_attacks.include?(move)
-    #   check_attacks << move
-    # elsif duped_board.in_check?(:w)
-    #   checks << move
-    # end
+    #@safe_moves = safe_moves
+    return checkmate_move unless checkmate_move.nil?
 
 
 
@@ -48,7 +39,7 @@ class ComputerPlayer
     end
     check_moves
   end
-  def checkmate_moves
+  def checkmate_move
     @possible.each do |move|
 
       duped_board = @board.dup
@@ -56,7 +47,7 @@ class ComputerPlayer
 
       return move if duped_board.checkmate?(:w)
     end
-    []
+    nil
 
   end
 

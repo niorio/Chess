@@ -19,17 +19,15 @@ class Board
   end
 
   def pieces
-    @grid.flatten.select{|item| !item.nil?}
+    @grid.flatten.compact
   end
 
   def collect_pieces(color)
-    collection = []
 
-    pieces.each do |space|
-      collection << space if space.color == color
+    pieces.select do |piece|
+      piece.color == color
     end
 
-    collection
   end
 
   def find_king(color)
@@ -37,18 +35,20 @@ class Board
     pieces.each do |piece|
       return piece if piece.color == color && piece.class == King
     end
+
+    raise "king not found"
   end
 
   def in_check?(color)
-    
+
     opponent_color = color == :w ? :b : :w
-    all_possible_moves = []
+    opponent_moves = []
 
     collect_pieces(opponent_color).each do |piece|
-      all_possible_moves += piece.possible_moves
+      opponent_moves += piece.possible_moves
     end
 
-    all_possible_moves.include?(find_king(color).position)
+    opponent_moves.include?(find_king(color).position)
   end
 
   def move(start, finish)
@@ -67,19 +67,20 @@ class Board
   end
 
   def pawn_promotion
-    pawn_promoted = false
+
     2.times do |i|
       8.times do |j|
         potential_pawn = self[[i*7,j]]
+
         if potential_pawn.class == Pawn
           self[[i*7,j]] = Queen.new(self, potential_pawn.color, [i*7,j])
           pawn_promoted = true
+          puts "A pawn is now a Queen!"
         end
+
       end
     end
-    if pawn_promoted
-      puts "A pawn is now a Queen!"
-    end
+
   end
 
   def castling?(start,finish)
