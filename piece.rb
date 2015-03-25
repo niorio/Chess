@@ -44,8 +44,6 @@ class Piece
     raise NotImplementedError
   end
 
-
-
   def valid_moves
 
     possible_moves.select{|move| !move_into_check?(move)}

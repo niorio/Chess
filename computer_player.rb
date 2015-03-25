@@ -8,10 +8,12 @@ class ComputerPlayer
   end
 
   def play_turn
-
     @possible = possible_moves
-    #@safe_moves = safe_moves
+
     return checkmate_move unless checkmate_move.nil?
+    return check_moves.sample unless check_moves.empty?
+    return good_trade.sample unless good_trade.empty?
+    return safe_moves.sample unless safe_moves.empty?
 
 
 
@@ -21,7 +23,7 @@ class ComputerPlayer
     #return good_trade.sample unless good_trade.empty?
 
 
-    return check_moves.sample unless check_moves.empty?
+
     return attack_moves.sample unless attack_moves.empty?
 
     possible_moves.sample
@@ -39,6 +41,7 @@ class ComputerPlayer
     end
     check_moves
   end
+
   def checkmate_move
     @possible.each do |move|
 
@@ -87,10 +90,13 @@ class ComputerPlayer
     good_trades = []
     @possible.each do |move|
       base_val = @board[move[0]].class::VALUE
-      if @board[move[1]].class::VALUE >= base_val
+      new_val = @board[move[1]].nil? ? 0 : @board[move[1]].class::VALUE
+      if new_val >= base_val
         good_trades << move
       end
     end
+    good_trades
+
   end
 
   def attack_moves

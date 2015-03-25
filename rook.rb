@@ -22,6 +22,4 @@ class Rook < SlidingPiece
     self.color == :w ? "\u2656" : "\u265C"
   end
 
-
-
 end

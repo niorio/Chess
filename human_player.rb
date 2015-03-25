@@ -1,8 +1,9 @@
 class HumanPlayer
   attr_reader :color
-  
+
   def initialize(color)
     @color = color
+    @name = color == :w ? "White" : "Black"
   end
 
   def parse_input(input)
@@ -14,15 +15,12 @@ class HumanPlayer
       el[1] -= 1
       el.reverse
     end
-
-
-
   end
 
   def play_turn
-
-    print "Please choose a piece by its location and where you would like to move it to: "
+    print "#{@name}, please enter your move (in the form \"a1,b2\"): "
     move = gets.chomp
+    debugger if move =="debug"
     parse_input(move)
   rescue
     retry
