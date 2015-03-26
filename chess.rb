@@ -13,6 +13,7 @@ require_relative 'human_player'
 require_relative 'game'
 require 'byebug'
 require 'colorize'
+
 DELTAS_ALL = {
   :row_col => [
     [1,0],

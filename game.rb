@@ -55,9 +55,9 @@ class Game
     end
     @board.display
     if @board.checkmate?(:w)
-      puts "Uh oh, black checkmated white! Game over. Congrats black!"
+      puts "Uh oh, black checkmated white! Game over."
     else
-      puts "White checkmated black. Cheater, it had the first move."
+      puts "White checkmated black. Winner!"
     end
 
   end

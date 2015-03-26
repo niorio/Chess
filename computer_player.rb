@@ -14,19 +14,9 @@ class ComputerPlayer
     return check_moves.sample unless check_moves.empty?
     return good_trade.sample unless good_trade.empty?
     return safe_moves.sample unless safe_moves.empty?
-
-
-
-    # return (check_moves & attack_moves & safe_moves).sample unless (check_moves & attack_moves & safe_moves).empty?
-    # return (attack_moves & safe_moves).sample unless (attack_moves & safe_moves).empty?
-    # return (check_moves & good_trade).sample unless (check_moves & good_trade).empty?
-    #return good_trade.sample unless good_trade.empty?
-
-
-
     return attack_moves.sample unless attack_moves.empty?
 
-    possible_moves.sample
+    @possible.sample
 
   end
 
@@ -100,7 +90,6 @@ class ComputerPlayer
   end
 
   def attack_moves
-
     possible_attacks = @possible.select do |move|
       !@board[move[1]].nil?
     end
@@ -108,15 +97,10 @@ class ComputerPlayer
     possible_attacks.sort! {|move| @board[move[1]].class::VALUE}
     possible_attacks.reverse
 
-  end
-
-  def highest_attack_moves
-
-    best_val = attack_moves.first[1].class::VALUE
-    attack_moves.select {|move| @board[move[1]].class::VALUE == best_val }
+    best_val = @board[possible_attacks[0][1]].class::VALUE
+    possible_attacks.select{|move| move[1].class::VALUE >= best_val}
 
   end
-
 
 
 end

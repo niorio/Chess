@@ -20,7 +20,6 @@ class HumanPlayer
   def play_turn
     print "#{@name}, please enter your move (in the form \"a1,b2\"): "
     move = gets.chomp
-    debugger if move =="debug"
     parse_input(move)
   rescue
     retry

@@ -90,16 +90,21 @@ class Board
       piece.possible_moves.each {|move| possible_opponent_moves << move }
     end
 
-    if self[start].class == King && self[start].moved == false && start[0] == finish[0] &&
-    (start[1] == (finish[1] + 2) || start[1] == (finish[1] - 2))
+    if self[start].class == King && self[start].moved == false &&
+      start[0] == finish[0] && (start[1] == (finish[1] + 2) ||
+      start[1] == (finish[1] - 2))
 
       if finish[1] > start[1] && self[[start[0],7]].moved == false &&
-      self[[start[0],7]].valid_moves.include?([start[0],5]) && !possible_opponent_moves.include?(finish)
+        self[[start[0],7]].valid_moves.include?([start[0],5]) &&
+        !possible_opponent_moves.include?(finish)
+
         return true
       end
 
       if finish[1] < start[1] && self[[start[0],0]].moved == false &&
-      self[[start[0],0]].valid_moves.include?([start[0],3]) && !possible_opponent_moves.include?(finish)
+      self[[start[0],0]].valid_moves.include?([start[0],3]) &&
+        !possible_opponent_moves.include?(finish)
+
         return true
       end
     end

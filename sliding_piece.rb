@@ -13,7 +13,7 @@ class SlidingPiece < Piece
           possible_moves << new_pos
           if @board[new_pos].nil?
           elsif @board[new_pos].color == opposite
-            available = false
+            available = false 
           end
         else
           available = false
