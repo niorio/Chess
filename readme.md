@@ -2,7 +2,6 @@
 
 ##Instructions
 Download project, run `./chess.rb` from command line, inside the repo
-Requires the colorize gem (`gem install colorize`)
 
 ##Features
 * Uses inheritance for various piece types
