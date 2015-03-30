@@ -1,7 +1,7 @@
 #Chess
 
 ##Instructions
-Download project, run `./chess.rb` from command line, inside the repo
+Download project, run `./chess.rb` from command line, inside the repo.
 
 ##Features
 * Uses inheritance for various piece types
