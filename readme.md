@@ -3,6 +3,8 @@
 ##Instructions
 Download project, run `./chess.rb` from command line, inside the repo.
 
+Dependencies: Ruby and [Colorize](https://github.com/fazibear/colorize)
+
 ##Features
 * Uses inheritance for various piece types
  * `Piece` --> `SlidingPiece` and `SteppingPiece` --> individual piece types.
